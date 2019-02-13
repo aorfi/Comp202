@@ -1,3 +1,4 @@
+package Assignment_1;
 //Alev Orfi 260722166
 
 public class InputAnalyzer {
