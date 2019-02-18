@@ -2,7 +2,6 @@
 //Validates email adresses 
 public class EmailValidation {
 	public static void main(String[] args) {
-		System.out.println(isValidEmail(args[0]));
 		
 	}
 	
@@ -40,7 +39,7 @@ public class EmailValidation {
 	}
 	
 	
-	public static boolean isDomainChar(char a) {//Checks if character is alphanumeric, a dash or a period
+	public static boolean isValidDomainChar(char a) {//Checks if character is alphanumeric, a dash or a period
 		int code = (int) a;
 		boolean Alpha = isAlphanumeric(a);
 		if( Alpha == true || code > 44 && code < 47 ) {
@@ -173,7 +172,7 @@ public class EmailValidation {
 			}
 			
 			for(int i=0; i<fPart.length(); i++ ) {
-				if(isDomainChar(fPart.charAt(i)) == false ) {//checks if each character is valid prefix character
+				if(isValidDomainChar(fPart.charAt(i)) == false ) {//checks if each character is valid prefix character
 					return false;
 				}
 				if(fPart.charAt(i) > 44 && fPart.charAt(i) < 47) {//checks if it has a period or dash
