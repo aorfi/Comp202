@@ -1,13 +1,15 @@
-import java.util.Arrays;
+//Alev Orfi 260722166
 
 public class GameOfLife {
 	
 	public static void main(String args[]) {
-		int[][] tub =  {{0,0,0,0,0}, {0,0,1,0,0}, {0,1,0,1,0}, {0,0,1,0,0}, {0,0,0,0,0}};
-		displayUniverse(tub);
-		int[][] newtub = getnextGenUnverse(tub);
-		displayUniverse(newtub);
-		System.out.println(Arrays.deepToString(newtub));
+		int[][] pentadec = {{0,0,0,0,0,0,0,0,0}, {0,0,0,0,0,0,0,0,0}, {0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,1,0,0,0,0}, {0,0,0,0,1,0,0,0,0}, {0,0,0,1,0,1,0,0,0}, {0,0,0,0,1,0,0,0,0},
+				{0,0,0,0,1,0,0,0,0}, {0,0,0,0,1,0,0,0,0}, {0,0,0,0,1,0,0,0,0}, {0,0,0,1,0,1,0,0,0},
+				{0,0,0,0,1,0,0,0,0}, {0,0,0,0,1,0,0,0,0}, {0,0,0,0,0,0,0,0,0}, {0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0}};
+
+		simulateNGenerations(pentadec,9);
 	}
 
 	public static boolean isValidUniverse(int[][] uni) {//checks if the universe is valid
@@ -63,12 +65,13 @@ public class GameOfLife {
 		int neighbor=0;
 		for(int i = 0; i < uni.length ; i++) {//calculates the number of neightbours that are alive
 			for( int m = 0; m <uni[0].length; m++) {
-				if(i-x==1 || m-y==1) {
+				if((i>=(x-1) && i<=(x+1)) && (m>=(y-1) && m<=(y+1)) ) {
 					neighbor += uni[i][m];
 				}
 			}
 		}		
 		if(uni[x][y] == 1) {//determines if it lives or not depending on the neighbour number
+			neighbor --;//subtracts one since neighbor counts itself
 			if(neighbor < 2 || neighbor > 3) {
 				return 0;
 			}
@@ -87,14 +90,29 @@ public class GameOfLife {
 	}
 	
 	
-	public static int[][] getnextGenUnverse(int[][] uni){
-		int[][] newUni = new int[uni.length][uni[0].length];
+	public static int[][] getNextGenUniverse(int[][] uni){//makes a new universe 
+		int[][] newUni = new int[uni.length][uni[0].length]; 
 		for(int i = 0; i < uni.length ; i++) {
 			for( int m = 0; m <uni[0].length; m++) {
-				newUni[i][m] = getNextGenCell(uni,i,m);
+				newUni[i][m] = getNextGenCell(uni,i,m); //finds the value of each cell in new universe
 			}
 		}
 		return newUni;
-		
+	}
+	
+	public static void simulateNGenerations(int[][] uni, int n) {
+		if(isValidUniverse(uni) == false) {//checks validity of universe
+			throw new IllegalArgumentException("The universe is not valid");
+		}
+		else {
+			System.out.println("Original seed");
+			displayUniverse(uni);//prints original sees
+			for(int i=1; i<=n; i++) {//prints each new generation
+				System.out.println("Generation "+i);
+				uni = getNextGenUniverse(uni);
+				displayUniverse(uni);
+			}
+			
+		}
 	}
 }
